@@ -1,8 +1,7 @@
 package com.alpha.vision.pro.gallery.editor.ui
+import androidx.compose.animation.AnimatedVisibility
 
-import AnimatedVisibility
 import android.graphics.BitmapFactory
-import AnimatedVisibility
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
