@@ -1,4 +1,4 @@
-package com.alpha.vision.pro.gallery.data.native
+package com.alpha.vision.pro.gallery.data.nativelib
 
 import android.graphics.Bitmap
 
