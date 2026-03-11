@@ -25,11 +25,15 @@ jobs:
           api-level: 36
           build-tools: 36.0.0
 
+      # নতুন স্টেপ: গিটহাবকে দিয়ে ফ্রেশ gradlew তৈরি করানো
+      - name: Generate fresh Gradle Wrapper
+        run: gradle wrapper --gradle-version 9.3.1
+
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
 
       - name: Build Debug APK
-        run: ./gradlew :app:assembleDebug
+        run: ./gradlew :app:assembleDebug --stacktrace
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
