@@ -52,7 +52,7 @@ class MediaRepositoryImpl @Inject constructor(
     }
 
     override suspend fun stripExif(id: Long): Result<Unit> = withContext(Dispatchers.IO) {
-        runCatching {
+        runCatching<Unit> {
             val entity = dao.getById(id) ?: error("Not found")
             val uri    = Uri.parse(entity.uri)
             resolver.openFileDescriptor(uri, "rw")?.use { pfd ->
