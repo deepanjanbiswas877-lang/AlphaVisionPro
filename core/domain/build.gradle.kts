@@ -14,4 +14,6 @@ android {
 }
 dependencies {
     implementation(libs.kotlinx.coroutines.android)
+    implementation("javax.inject:javax.inject:1")
+    implementation(libs.androidx.ui.graphics)
 }
