@@ -1,0 +1,92 @@
+package com.alpha.vision.pro.gallery.gallery.ui
+
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.DeleteSweep
+import androidx.compose.material3.*
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
+import androidx.exifinterface.media.ExifInterface
+import com.alpha.vision.pro.gallery.designsystem.components.DragHandle
+import com.alpha.vision.pro.gallery.designsystem.components.ExifChip
+import com.alpha.vision.pro.gallery.domain.model.MediaItem
+import java.io.File
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun ExifBottomSheet(
+    item       : MediaItem,
+    onDismiss  : () -> Unit,
+    onStripExif: () -> Unit
+) {
+    // Read EXIF from URI path
+    val exifMap = remember(item.uri) {
+        buildMap {
+            try {
+                val path = item.uri.removePrefix("content://")
+                    .let { it } // real apps resolve via ContentResolver
+                // We display from the domain model's exifData if available
+                item.exifData?.let { ex ->
+                    ex.make?.let      { put("Make", it) }
+                    ex.model?.let     { put("Model", it) }
+                    ex.focalLength?.let { put("Focal Length", it) }
+                    ex.aperture?.let  { put("Aperture", it) }
+                    ex.shutterSpeed?.let { put("Shutter", it) }
+                    ex.iso?.let       { put("ISO", it) }
+                    ex.dateTaken?.let { put("Date", it) }
+                    ex.gpsLatitude?.let  { put("Lat", "%.5f".format(it)) }
+                    ex.gpsLongitude?.let { put("Lon", "%.5f".format(it)) }
+                }
+            } catch (_: Exception) {}
+        }
+    }
+
+    ModalBottomSheet(onDismissRequest = onDismiss) {
+        Column(
+            modifier            = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp)
+                .padding(bottom = 24.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            DragHandle()
+            Spacer(Modifier.height(8.dp))
+            Text("EXIF Metadata", style = MaterialTheme.typography.titleMedium)
+            Spacer(Modifier.height(12.dp))
+
+            if (exifMap.isEmpty()) {
+                Text("No EXIF data available",
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant)
+            } else {
+                LazyColumn(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                    items(exifMap.entries.toList().size) { idx ->
+                        val entry = exifMap.entries.toList()[idx]
+                        ExifChip(label = entry.key, value = entry.value,
+                            modifier = Modifier.fillMaxWidth())
+                    }
+                }
+            }
+
+            Spacer(Modifier.height(16.dp))
+            Button(
+                onClick = onStripExif,
+                colors  = ButtonDefaults.buttonColors(
+                    containerColor = MaterialTheme.colorScheme.errorContainer,
+                    contentColor   = MaterialTheme.colorScheme.onErrorContainer
+                )
+            ) {
+                Icon(Icons.Filled.DeleteSweep, contentDescription = null)
+                Spacer(Modifier.width(8.dp))
+                Text("Strip All EXIF Data")
+            }
+        }
+    }
+}
+
+@Composable
+private fun <T> remember(vararg keys: Any?, calculation: () -> T) =
+    androidx.compose.runtime.remember(*keys, calculation = calculation)
