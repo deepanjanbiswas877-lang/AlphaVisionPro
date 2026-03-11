@@ -1,7 +1,8 @@
 package com.alpha.vision.pro.gallery.editor.ui
 
+import AnimatedVisibility
 import android.graphics.BitmapFactory
-import androidx.compose.animation.AnimatedVisibility
+import AnimatedVisibility
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
@@ -100,7 +101,7 @@ fun EditorScreen(
                         modifier         = Modifier.fillMaxSize()
                     )
                 }
-                androidx.compose.animation.androidx.compose.animation.AnimatedVisibility(
+                AnimatedVisibility(
                     visible  = state.isProcessing,
                     modifier = Modifier.align(Alignment.Center)
                 ) {
