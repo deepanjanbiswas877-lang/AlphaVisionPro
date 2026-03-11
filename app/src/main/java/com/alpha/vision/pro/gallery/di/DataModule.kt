@@ -4,7 +4,7 @@ import android.content.Context
 import androidx.room.Room
 import com.alpha.vision.pro.gallery.data.db.MediaDatabase
 import com.alpha.vision.pro.gallery.data.db.dao.MediaDao
-import com.alpha.vision.pro.gallery.data.native.NativeImageProcessor
+import com.alpha.vision.pro.gallery.data.nativelib.NativeImageProcessor
 import com.alpha.vision.pro.gallery.data.repository.MediaRepositoryImpl
 import com.alpha.vision.pro.gallery.data.repository.VaultRepositoryImpl
 import com.alpha.vision.pro.gallery.domain.repository.MediaRepository
