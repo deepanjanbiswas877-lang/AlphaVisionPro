@@ -1,6 +1,6 @@
 package com.alpha.vision.pro.gallery.domain.model
 
-import com.alpha.vision.pro.gallery.designsystem.theme.ColorSpace
+enum class ColorSpace { SRGB, DISPLAY_P3 }
 
 data class AppPreferences(
     val darkMode          : Boolean?   = null,   // null = follow system
